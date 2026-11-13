@@ -4,8 +4,12 @@ ChlCast forecasts surface chlorophyll-a for the next 10 days on a 4 km grid from
 
 ## Quick start
 
-From the project directory on Linux x86_64, unpack the environment and run the August 31 example. Example inputs are available for initialization dates from August 25 to 31, 2026.
+Download these two files from the v1.0.0 release:
 
+- [Linux x86_64 environment](https://github.com/hohosilent-hoho/ChlCast/releases/download/v1.0.0/ChlCast_env_linux_x86_64.tar.gz)
+- [August 25, 2026 example inputs](https://github.com/hohosilent-hoho/ChlCast/releases/download/v1.0.0/ChlCast_example_2026-08-25.zip)
+
+Save both files in the project directory and run:
 ```bash
 mkdir -p chlcast_env
 tar -xzf environment/ChlCast_env_linux_x86_64.tar.gz -C chlcast_env
