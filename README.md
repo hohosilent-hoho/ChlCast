@@ -1,0 +1,31 @@
+# ChlCast
+
+ChlCast forecasts surface chlorophyll-a for the next 10 days on a 4 km grid from 60°S to 60°N. It uses 10 days of observations and daily climatology. The inference script loads `ChlCast.
+
+## Quick start
+
+From the project directory on Linux x86_64, unpack the environment and run the August 31 example. Example inputs are available for initialization dates from August 25 to 31, 2026.
+
+```bash
+mkdir -p chlcast_env
+tar -xzf environment/ChlCast_env_linux_x86_64.tar.gz -C chlcast_env
+./chlcast_env/bin/python ./chlcast_env/bin/conda-unpack
+
+./chlcast_env/bin/chlcast-python inference.py \
+  --input-dir example_files/2026-08-31 \
+  --device cuda --batch-size 4 \
+  --output ChlCast_2026-08-31.nc
+```
+
+Use `--device cpu` and omit `--batch-size 4` for CPU inference. The example writes one NetCDF file with daily chlorophyll-a forecasts and a validity mask for September 1–10, 2026.
+
+## Input data
+
+Each initialization folder contains two NetCDF files with `CHL(time, latitude, longitude)` in `mg m-3` on the same grid:
+
+- `observations/chlorophyll_observations.nc` covers the initialization date and the previous nine days.
+- `climatology/chlorophyll_climatology.nc` covers those ten days and all ten forecast dates.
+
+The observations come from the daily gap-free 4 km Copernicus Marine Global Ocean Colour L4 product (`OCEANCOLOUR_GLO_BGC_L4_MY_009_104`). [Product and data access](https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L4_MY_009_104/services) · [DOI: 10.48670/moi-00281](https://doi.org/10.48670/moi-00281)
+
+For each calendar day and grid cell, compute the arithmetic mean of valid chlorophyll concentrations within a circular 31-day window (±15 days) across prior years. The 2026 examples use 1998–2025. 
